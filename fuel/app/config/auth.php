@@ -24,6 +24,6 @@
 return array(
     'driver'                 => 'Simpleauth',
     'verify_multiple_logins' => false,
-    'salt'                   => 'put_your_salt_here',
+    'salt'                   => 'my_salt',
     'iterations'             => 10000,
 );
