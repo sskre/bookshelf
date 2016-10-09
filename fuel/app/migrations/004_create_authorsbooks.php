@@ -2,22 +2,18 @@
 
 namespace Fuel\Migrations;
 
-class Create_bookauthors
+class Create_authorsbooks
 {
 	public function up()
 	{
-		\DBUtil::create_table('bookauthors', array(
-			'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true, 'unsigned' => true),
-			'book_id' => array('constraint' => 11, 'type' => 'int'),
+		\DBUtil::create_table('authors_books', array(
 			'author_id' => array('constraint' => 11, 'type' => 'int'),
-			'created_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
-			'updated_at' => array('constraint' => 11, 'type' => 'int', 'null' => true),
-
-		), array('id'));
+			'book_id' => array('constraint' => 11, 'type' => 'int'),
+		), array('author_id', 'book_id'));
 	}
 
 	public function down()
 	{
-		\DBUtil::drop_table('bookauthors');
+		\DBUtil::drop_table('authors_books');
 	}
 }
