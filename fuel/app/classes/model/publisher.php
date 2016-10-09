@@ -21,6 +21,16 @@ class Model_Publisher extends Model
 		),
 	);
 
+	protected static $_has_many = array(
+		'books' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Book',
+			'key_to' => 'publisher_id',
+			'cascade_save' => true,
+			'cascade_delete' => false,
+		),
+	);
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);

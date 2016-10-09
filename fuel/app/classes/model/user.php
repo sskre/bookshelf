@@ -29,4 +29,13 @@ class Model_User extends \Orm\Model
 
 	protected static $_table_name = 'users';
 
+	protected static $_has_many = array(
+		'books' => array(
+			'key_from' => 'id',
+			'model_to' => 'Model_Book',
+			'key_to' => 'owner_user_id',
+			'cascade_save' => true,
+			'cascade_delete' => false,
+		),
+	);
 }
