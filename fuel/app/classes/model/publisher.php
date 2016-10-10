@@ -5,9 +5,31 @@ class Model_Publisher extends Model
 {
 	protected static $_properties = array(
 		'id',
-		'name',
-		'created_at',
-		'updated_at',
+		'name' => array(
+			'data_type' => 'string',
+			'label' => 'Name',
+			'validation' => array(
+				'required',
+				'max_length' => array(255),
+			),
+			'form' => array(
+				'type' => 'text',
+				'class' => 'form-control',
+				'placeholder' => 'Name',
+			),
+		),
+		'created_at' => array(
+			'data_type' => 'int',
+			'form' => array(
+				'type' => false,
+			),
+		),
+		'updated_at' => array(
+			'data_type' => 'int',
+			'form' => array(
+				'type' => false,
+			),
+		),
 	);
 
 	protected static $_observers = array(
@@ -18,6 +40,9 @@ class Model_Publisher extends Model
 		'Orm\Observer_UpdatedAt' => array(
 			'events' => array('before_save'),
 			'mysql_timestamp' => false,
+		),
+		'Orm\Observer_Validation' => array(
+			'events' => array('before_save'),
 		),
 	);
 
@@ -30,13 +55,5 @@ class Model_Publisher extends Model
 			'cascade_delete' => false,
 		),
 	);
-
-	public static function validate($factory)
-	{
-		$val = Validation::forge($factory);
-		$val->add_field('name', 'Name', 'required|max_length[255]');
-
-		return $val;
-	}
 
 }

@@ -29,35 +29,47 @@ class Controller_Publisher extends Controller_Template
 	{
 		if (Input::method() == 'POST')
 		{
-			$val = Model_Publisher::validate('create');
-
-			if ($val->run())
+			try
 			{
-				$publisher = Model_Publisher::forge(array(
-					'name' => Input::post('name'),
-				));
+				$publisher = Model_Publisher::forge(array('name' => Input::post('name')));
 
-				if ($publisher and $publisher->save())
+				if ($publisher->save())
 				{
 					Session::set_flash('success', 'Added publisher #'.$publisher->id.'.');
-
 					Response::redirect('publisher');
 				}
-
 				else
 				{
 					Session::set_flash('error', 'Could not save publisher.');
 				}
 			}
-			else
+			catch (Orm\ValidationFailed $e)
 			{
-				Session::set_flash('error', $val->error());
+				// Validation error has occurred
+				Session::set_flash('error', $e->getMessage());
 			}
 		}
 
 		$this->template->title = "Publishers";
-		$this->template->content = View::forge('publisher/create');
+		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
+		$form->add('submit', '', array(
+			'type' => 'submit',
+			'class' => 'btn btn-primary submit',
+			'value' => 'Create',
+		));
 
+		if (Input::method() == 'POST')
+		{
+			$form->validation()->run();
+			$form->show_errors();
+			$form->repopulate();
+		}
+		else
+		{
+			$form->populate(Model_Publisher::forge());
+		}
+
+		$this->template->content = View::forge('publisher/create')->set_safe('form', $form->build());
 	}
 
 	public function action_edit($id = null)
