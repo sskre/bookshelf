@@ -25,29 +25,39 @@ class Controller_Publisher extends Controller_Template
 
 	}
 
-	public function action_create()
+	public function get_create()
 	{
-		if (Input::method() == 'POST')
-		{
-			try
-			{
-				$publisher = Model_Publisher::forge(array('name' => Input::post('name')));
+		$this->template->title = "Publishers";
+		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
+		$form->add('submit', '', array(
+			'type' => 'submit',
+			'class' => 'btn btn-primary submit',
+			'value' => 'Create',
+		));
+		$form->populate(Model_Publisher::forge());
+		$this->template->content = View::forge('publisher/create')->set_safe('form', $form->build());
+	}
 
-				if ($publisher->save())
-				{
-					Session::set_flash('success', 'Added publisher #'.$publisher->id.'.');
-					Response::redirect('publisher');
-				}
-				else
-				{
-					Session::set_flash('error', 'Could not save publisher.');
-				}
-			}
-			catch (Orm\ValidationFailed $e)
+	public function post_create()
+	{
+		try
+		{
+			$publisher = Model_Publisher::forge(array('name' => Input::post('name')));
+
+			if ($publisher->save())
 			{
-				// Validation error has occurred
-				Session::set_flash('error', $e->getMessage());
+				Session::set_flash('success', 'Added publisher #'.$publisher->id.'.');
+				Response::redirect('publisher');
 			}
+			else
+			{
+				Session::set_flash('error', 'Could not save publisher.');
+			}
+		}
+		catch (Orm\ValidationFailed $e)
+		{
+			// Validation error has occurred
+			Session::set_flash('error', $e->getMessage());
 		}
 
 		$this->template->title = "Publishers";
@@ -58,16 +68,9 @@ class Controller_Publisher extends Controller_Template
 			'value' => 'Create',
 		));
 
-		if (Input::method() == 'POST')
-		{
-			$form->validation()->run();
-			$form->show_errors();
-			$form->repopulate();
-		}
-		else
-		{
-			$form->populate(Model_Publisher::forge());
-		}
+		$form->validation()->run();
+		$form->show_errors();
+		$form->repopulate();
 
 		$this->template->content = View::forge('publisher/create')->set_safe('form', $form->build());
 	}
