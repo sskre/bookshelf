@@ -1,5 +1,5 @@
 <?php
-class Controller_Publisher extends Controller_Template
+class Controller_Publisher extends Controller
 {
 
 	public function action_index()
@@ -27,7 +27,6 @@ class Controller_Publisher extends Controller_Template
 
 	public function get_create()
 	{
-		$this->template->title = "Publishers";
 		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
 		$form->add('submit', '', array(
 			'type' => 'submit',
@@ -35,7 +34,11 @@ class Controller_Publisher extends Controller_Template
 			'value' => 'Create',
 		));
 		$form->populate(Model_Publisher::forge());
-		$this->template->content = View::forge('publisher/create')->set_safe('form', $form->build());
+		return Response::forge(
+			View::forge('publisher/create')
+				->set('title', 'Publishers')
+				->set_safe('form', $form->build())
+		);
 	}
 
 	public function post_create()
@@ -60,7 +63,6 @@ class Controller_Publisher extends Controller_Template
 			Session::set_flash('error', 'There are some errors in the input.');
 		}
 
-		$this->template->title = "Publishers";
 		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
 		$form->add('submit', '', array(
 			'type' => 'submit',
@@ -68,11 +70,16 @@ class Controller_Publisher extends Controller_Template
 			'value' => 'Create',
 		));
 
+		// Run validation for getting error messages
 		$form->validation()->run();
+
 		$form->show_errors();
 		$form->repopulate();
-
-		$this->template->content = View::forge('publisher/create')->set_safe('form', $form->build());
+		return Response::forge(
+			View::forge('publisher/create')
+				->set('title', 'Publishers')
+				->set_safe('form', $form->build())
+		);
 	}
 
 	public function action_edit($id = null)
