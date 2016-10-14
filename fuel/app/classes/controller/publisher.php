@@ -57,7 +57,7 @@ class Controller_Publisher extends Controller_Template
 		catch (Orm\ValidationFailed $e)
 		{
 			// Validation error has occurred
-			Session::set_flash('error', $e->getMessage());
+			Session::set_flash('error', 'There are some errors in the input.');
 		}
 
 		$this->template->title = "Publishers";

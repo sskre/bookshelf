@@ -32,7 +32,7 @@ return array(
 	'error_template'             => '<span>{error_msg}</span>',
 	'group_label'	             => '<span>{label}</span>',
 	'required_mark'              => '*',
-	'inline_errors'              => false,
+	'inline_errors'              => true,
 	'error_class'                => 'has-error',
 	'label_class'                => 'control-label',
 
