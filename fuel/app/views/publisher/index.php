@@ -1,3 +1,4 @@
+<?php echo render('header', array('title' => $title)); ?>
 <h2>Listing <span class='muted'>Publishers</span></h2>
 <br>
 <?php if ($publishers): ?>
@@ -30,3 +31,4 @@
 	<?php echo Html::anchor('publisher/create', 'Add new Publisher', array('class' => 'btn btn-success')); ?>
 
 </p>
+<?php echo render('footer'); ?>

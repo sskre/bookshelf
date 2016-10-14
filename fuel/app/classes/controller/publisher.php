@@ -4,25 +4,24 @@ class Controller_Publisher extends Controller
 
 	public function action_index()
 	{
-		$data['publishers'] = Model_Publisher::find('all');
-		$this->template->title = "Publishers";
-		$this->template->content = View::forge('publisher/index', $data);
-
+		return Response::forge(
+			Presenter::forge('publisher/index')
+		);
 	}
 
 	public function action_view($id = null)
 	{
 		is_null($id) and Response::redirect('publisher');
 
-		if ( ! $data['publisher'] = Model_Publisher::find($id))
+		if ( ! Model_Publisher::find($id))
 		{
 			Session::set_flash('error', 'Could not find publisher #'.$id);
 			Response::redirect('publisher');
 		}
 
-		$this->template->title = "Publisher";
-		$this->template->content = View::forge('publisher/view', $data);
-
+		return Response::forge(
+			Presenter::forge('publisher/view')
+		);
 	}
 
 	public function get_create()

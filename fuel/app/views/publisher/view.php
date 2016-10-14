@@ -1,3 +1,4 @@
+<?php echo render('header', array('title' => $title)); ?>
 <h2>Viewing <span class='muted'>#<?php echo $publisher->id; ?></span></h2>
 
 <p>
@@ -6,3 +7,4 @@
 
 <?php echo Html::anchor('publisher/edit/'.$publisher->id, 'Edit'); ?> |
 <?php echo Html::anchor('publisher', 'Back'); ?>
+<?php echo render('footer'); ?>
