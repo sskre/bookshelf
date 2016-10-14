@@ -27,17 +27,8 @@ class Controller_Publisher extends Controller
 
 	public function get_create()
 	{
-		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
-		$form->add('submit', '', array(
-			'type' => 'submit',
-			'class' => 'btn btn-primary submit',
-			'value' => 'Create',
-		));
-		$form->populate(Model_Publisher::forge());
 		return Response::forge(
-			View::forge('publisher/create')
-				->set('title', 'Publishers')
-				->set_safe('form', $form->build())
+			Presenter::forge('publisher/create', 'input')
 		);
 	}
 
@@ -63,22 +54,8 @@ class Controller_Publisher extends Controller
 			Session::set_flash('error', 'There are some errors in the input.');
 		}
 
-		$form = Fieldset::forge('publisher')->add_model(Model_Publisher::forge());
-		$form->add('submit', '', array(
-			'type' => 'submit',
-			'class' => 'btn btn-primary submit',
-			'value' => 'Create',
-		));
-
-		// Run validation for getting error messages
-		$form->validation()->run();
-
-		$form->show_errors();
-		$form->repopulate();
 		return Response::forge(
-			View::forge('publisher/create')
-				->set('title', 'Publishers')
-				->set_safe('form', $form->build())
+			Presenter::forge('publisher/create', 'error')
 		);
 	}
 
